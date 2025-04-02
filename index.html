@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitHub Pages APlayer Demo</title>
+    <!-- 引入 APlayer 样式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+</head>
+<body>
+    <!-- 播放器容器 -->
+    <div id="player"></div>
+
+    <!-- 引入 APlayer 和 MetingJS -->
+    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+
+    <!-- 初始化播放器 -->
+    <script>
+    const ap = new APlayer({
+        container: document.getElementById('player'),
+        audio: [{
+            name: '示情',
+            artist: '范文芳',
+            url: 'music/范文芳 - 示情.mp3',  // 音乐文件路径
+            cover: 'music/cover.jpg' // 封面路径
+        }]
+    });
+    </script>
+</body>
+</html>
