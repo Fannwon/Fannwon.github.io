@@ -1,154 +1,109 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>全功能音乐播放器 | GitHub Pages</title>
-    <!-- APlayer 样式 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+    <title>APlayer Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* 基础样式 */
         body {
-            margin: 0;
-            padding: 20px;
-            background: #f8f9fa;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
-
-        /* 桌面端播放器样式 */
-        .aplayer {
-            max-width: 800px;
-            margin: 20px auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .container {
+            max-width: 32rem;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 150px;
         }
-
-        /* 移动端适配 */
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            
-            .aplayer {
-                border-radius: 0 !important;
-                margin: 0;
-                max-width: 100%;
-            }
-            
-            /* 固定模式优化 */
-            .aplayer.aplayer-fixed {
-                bottom: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                width: 100% !important;
-            }
+        h1 {
+            font-size: 54px;
+            color: #333;
+            margin: 30px 0 10px;
         }
-
-        /* 解锁按钮样式 */
-        #unlock-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 12px 24px;
-            background: #FF6B6B;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            z-index: 999;
-            box-shadow: 0 4px 12px rgba(255,107,107,0.3);
-            transition: all 0.3s ease;
+        h2 {
+            font-size: 22px;
+            color: #555;
         }
-        #unlock-btn:hover { transform: scale(1.05); }
+        h3 {
+            font-size: 24px;
+            color: #555;
+        }
+        hr {
+            display: block;
+            width: 7rem;
+            height: 1px;
+            margin: 2.5rem 0;
+            background-color: #eee;
+            border: 0;
+        }
+        a {
+            color: #08c;
+            text-decoration: none;
+        }
+        p {
+            font-size: 18px;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/vconsole/dist/vconsole.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
+    <script src="APlayer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/color-thief-don@2.0.2/src/color-thief.js"></script>
 </head>
 <body>
-    <!-- 自动播放引导按钮 -->
-    <button id="unlock-btn" onclick="unlockAudio()">🎵 点击开始音乐之旅</button>
-    
-    <!-- 播放器容器 -->
-    <div id="player"></div>
-
-    <!-- 依赖库 -->
-    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
-    
-    <!-- 配置脚本 -->
+    <div class="container">
+        <h1>APlayer</h1>
+        <h2>Wow, such a beautiful html5 music player</h2>
+        <p>Made by <a href="https://www.anotherhome.net/" target="_blank">DIYgod</a>. Available on <a href="https://github.com/DIYgod/APlayer" target="_blank">GitHub</a>. Licensed MIT.</p>
+        <hr>
+        <h3>Normal</h3>
+        <div id="player1"></div>
+        <p></p>
+        <button onclick="ap1.play()">ap.play()</button>
+        <button onclick="ap1.seek(100)">ap.seek(100)</button>
+        <button onclick="ap1.pause()">ap.pause()</button>
+        <button onclick="ap1.toggle()">ap.toggle()</button>
+        <button onclick="ap1.volume(0.1)">ap.volume(0.1)</button>
+        <button onclick="ap1.addAudio([
+            {
+                name: 'あっちゅ～ま青春!',
+                artist: '七森中☆ごらく部',
+                url: 'https://cn-south-17-aplayer-46154810.oss.dogecdn.com/yuruyuri.mp3',
+                cover: 'https://cn-south-17-aplayer-46154810.oss.dogecdn.com/yuruyuri.jpg'
+            },
+            {
+                name: 'secret base~君がくれたもの~',
+                artist: '茅野愛衣',
+                url: 'https://cn-south-17-aplayer-46154810.oss.dogecdn.com/secretbase.mp3',
+                cover: 'https://cn-south-17-aplayer-46154810.oss.dogecdn.com/secretbase.jpg'
+            },
+            {
+                name: '回レ！雪月花',
+                artist: '小倉唯',
+                url: 'https://cn-south-17-aplayer-46154810.oss.dogecdn.com/snowmoonflowers.mp3',
+                cover: 'https://cn-south-17-aplayer-46154810.oss.dogecdn.com/snowmoonflowers.jpg'
+            }
+        ])">ap.addAudio(...)</button>
+        <button onclick="ap1.destroy()">ap.destroy()</button>
+        <h3>With playlist</h3>
+        <div id="player4" class="aplayer"></div>
+        <p></p>
+        <button onclick="ap4.switchAudio(2)">ap.switchAudio(2)</button>
+        <h3>With lyrics</h3>
+        <div id="player3" class="aplayer"></div>
+        <h3>With playlist and lyrics</h3>
+        <div id="player5" class="aplayer"></div>
+        <h3>Narrow</h3>
+        <div id="player2" class="aplayer"></div>
+        <h3>HLS</h3>
+        <div id="player6" class="aplayer"></div>
+        <div id="player7" class="aplayer"></div>
+        <div id="player8" class="aplayer"></div>
+    </div>
     <script>
-        // ========== 播放列表配置 ========== //
-        const playlist = [
-            {
-                name: '示情',
-                artist: '范文芳',
-                url: 'music/范文芳 - 示情.mp3',
-                cover: 'covers/nature.jpg',
-                lrc: 'lyrics/summer.lrc'  // 可选歌词
-            },
-            {
-                name: '城市夜晚',
-                artist: '电子脉搏',
-                url: 'music/city_night.mp3',
-                cover: 'covers/city.jpg',
-                theme: '#2196F3'  // 单曲自定义主题色
-            },
-            {
-                name: '钢琴独奏',
-                artist: '古典精选',
-                url: 'music/piano_solo.mp3',
-                cover: 'covers/piano.jpg'
-            }
-        ].sort(() => Math.random() - 0.5);  // 初始随机排序
-
-        // ========== 播放器初始化 ========== //
-        const ap = new APlayer({
-            container: document.getElementById('player'),
-            audio: playlist,
-            fixed: true,        // 固定模式
-            mini: window.innerWidth < 768,  // 自动切换迷你模式
-            autoplay: true,    // 自动播放（需用户交互后生效）
-            loop: 'all',       // 循环模式：all | one | none
-            order: 'random',   // 播放顺序：random | list
-            volume: 0.8,       // 初始音量
-            theme: '#FF6B6B',  // 主色调
-            lrcType: 3         // 歌词解析模式
-        });
-
-        // ========== 自动播放解锁 ========== //
-        function unlockAudio() {
-            ap.play();
-            document.getElementById('unlock-btn').style.display = 'none';
-            // 请求通知权限（可选）
-            if (Notification.permission !== 'denied') {
-                Notification.requestPermission();
-            }
+        if (/mobile/i.test(window.navigator.userAgent)) {
+            new VConsole();
         }
-
-        // ========== 响应式监听 ========== //
-        window.addEventListener('resize', () => {
-            ap.mini = window.innerWidth < 768;
-        });
-
-        // ========== 播放状态记忆 ========== //
-        window.addEventListener('beforeunload', () => {
-            localStorage.setItem('last-played', JSON.stringify({
-                index: ap.list.index,
-                time: ap.audio.currentTime
-            }));
-        });
-
-        // 读取播放状态
-        const lastPlay = JSON.parse(localStorage.getItem('last-played'));
-        if (lastPlay) {
-            ap.list.switch(lastPlay.index);
-            ap.audio.currentTime = lastPlay.time;
-        }
-
-        // ========== 桌面通知 ========== //
-        ap.on('play', () => {
-            if (Notification.permission === 'granted') {
-                new Notification('正在播放', {
-                    body: `${ap.audio.name} - ${ap.audio.author}`,
-                    icon: ap.audio.cover
-                });
-            }
-        });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
+    <script src="demo.js"></script>
 </body>
 </html>
