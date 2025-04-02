@@ -1,28 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GitHub Pages APlayer Demo</title>
-    <!-- 引入 APlayer 样式 -->
+    <title>全功能 APlayer 演示</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+    <style>
+    body {
+        margin: 0;
+        padding: 20px;
+        background: #f0f2f5;
+    }
+    
+    #unlock-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 24px;
+        background: #FF6B6B;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 100;
+    }
+
+    @media (max-width: 768px) {
+        body { padding: 10px; }
+        #unlock-btn { 
+            width: 90%;
+            bottom: 70px;
+            right: 5%;
+        }
+    }
+    </style>
 </head>
 <body>
-    <!-- 播放器容器 -->
+    <button id="unlock-btn" onclick="unlockAudio()">🎵 点击解锁音乐魔力</button>
     <div id="player"></div>
 
-    <!-- 引入 APlayer 和 MetingJS -->
     <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
-
-    <!-- 初始化播放器 -->
     <script>
+    // 随机打乱播放列表
+    const playlist = [
+        { name: '示情', artist: '范文芳', url: 'music/范文芳 - 示情.mp3', cover: 'covers/1.jpg' },
+        { name: 'Song 2', artist: 'Artist 2', url: 'music/song2.mp3', cover: 'covers/2.jpg' },
+        { name: 'Song 3', artist: 'Artist 3', url: 'music/song3.mp3', cover: 'covers/3.jpg' }
+    ].sort(() => Math.random() - 0.5); // 随机排序
+
     const ap = new APlayer({
         container: document.getElementById('player'),
-        audio: [{
-            name: '示情',
-            artist: '范文芳',
-            url: 'music/范文芳 - 示情.mp3',  // 音乐文件路径
-            cover: 'music/cover.jpg' // 封面路径
-        }]
+        audio: playlist,
+        autoplay: true,
+        loop: 'all',
+        order: 'random',
+        theme: '#FF6B6B',
+        mini: window.innerWidth < 768,
+        lrcType: 3
+    });
+
+    // 自动播放解锁逻辑
+    function unlockAudio() {
+        ap.play();
+        document.getElementById('unlock-btn').style.display = 'none';
+    }
+
+    // 窗口尺寸监听
+    window.addEventListener('resize', () => {
+        ap.mini = window.innerWidth < 768;
     });
     </script>
 </body>
